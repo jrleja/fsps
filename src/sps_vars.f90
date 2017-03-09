@@ -149,7 +149,7 @@ MODULE SPS_VARS
 
   !flag indicating if the Gaussians used for implementing
   !nebular emission lines should be set up on initialization
-  INTEGER :: setup_nebular_gaussians=0
+  INTEGER :: setup_nebular_gaussians=1
   !Width of Gaussian kernels for initial nebular smoothing
   !if setup_nebular_gaussians=1 (units=km/s if smooth_velocity=1)
   REAL(SP) :: nebular_smooth_init=100.
