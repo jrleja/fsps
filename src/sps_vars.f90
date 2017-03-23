@@ -13,7 +13,6 @@ MODULE SPS_VARS
 
 !------set the isochrone library------!
 #define MIST 0
-!Padova models circa 2008
 #define PADOVA 1
 #define PARSEC 0
 #define BASTI 0
@@ -79,6 +78,8 @@ MODULE SPS_VARS
   INTEGER :: add_agb_dust_model=1
 
   !turn on/off a Cloudy-based nebular emission model (cont+lines)
+  !if set to 2, then the nebular emission lines are added at the SSP
+  !level, which may be useful if the nebular parameters are fixed
   INTEGER :: add_neb_emission=0
   !turn on/off the nebular continuum component (automatically 
   !turned off if the above is set to 0)
@@ -149,10 +150,15 @@ MODULE SPS_VARS
 
   !flag indicating if the Gaussians used for implementing
   !nebular emission lines should be set up on initialization
-  INTEGER :: setup_nebular_gaussians=1
+  INTEGER :: setup_nebular_gaussians=0
+
   !Width of Gaussian kernels for initial nebular smoothing
   !if setup_nebular_gaussians=1 (units=km/s if smooth_velocity=1)
   REAL(SP) :: nebular_smooth_init=100.
+
+  !flag to include emission lines in the spectrum
+  !if not set, the line luminosities are still computed
+  INTEGER :: nebemlineinspec=1
   
   !------------Pre-compiler defintions------------!
   
@@ -246,7 +252,7 @@ MODULE SPS_VARS
   !number of emission lines and continuum emission points
   INTEGER, PARAMETER :: nemline=128, nlam_nebcont=1963
   !number of metallicity, age, and ionization parameter points
-  INTEGER, PARAMETER :: nebnz=11, nebnage=8, nebnip=7
+  INTEGER, PARAMETER :: nebnz=11, nebnage=9, nebnip=7
   !number of optical depths for AGN dust models
   INTEGER, PARAMETER :: nagndust=9
   !number of spectral points in the input library
@@ -467,9 +473,10 @@ MODULE SPS_VARS
   !structure for the output of the compsp routine
   TYPE COMPSPOUT
      REAL(SP) :: age=0.,mass_csp=0.,lbol_csp=0.,sfr=0.,mdust=0.,mformed=0.
-     REAL(SP), DIMENSION(nbands) :: mags=0.
-     REAL(SP), DIMENSION(nspec)  :: spec=0.
-     REAL(SP), DIMENSION(nindx)  :: indx=0.
+     REAL(SP), DIMENSION(nbands)  :: mags=0.
+     REAL(SP), DIMENSION(nspec)   :: spec=0.
+     REAL(SP), DIMENSION(nindx)   :: indx=0.
+     REAL(SP), DIMENSION(nemline) :: emlines=0.
   END TYPE COMPSPOUT
 
   ! A structure to hold SFH params converted to intrinsic units
@@ -512,4 +519,5 @@ MODULE SPS_VARS
   !REAL, DIMENSION(nspec,ntfull,ntaugrid,nz) :: csp_grid=0.0
   !INTEGER :: csp_grid_flag=0
 
+ 
 END MODULE SPS_VARS
