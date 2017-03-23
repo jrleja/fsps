@@ -193,7 +193,7 @@ SUBROUTINE COMPSP_WARNING(maxtime,pset,nzin,write_compsp)
 
   !-----------------------------------------------------!
 
-  IF (maxtime.LE.1E8.AND.pset%sfh.NE.0) THEN
+  IF (maxtime.LT.1E7.AND.pset%sfh.NE.0) THEN
      WRITE(*,*) 'COMPSP ERROR, maxtime too small:',maxtime
      STOP
   ENDIF
