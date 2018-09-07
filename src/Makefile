@@ -29,7 +29,7 @@ F90 = gfortran
 #  (Uncomment only one)
 #========================
 # GNU (version < 4.3.0)
-F90FLAGS = -O -cpp
+F90FLAGS = -O -cpp -fPIC
 # GNU (version >= 4.3.0)
 #F90FLAGS = -O3 -march=native -cpp
 #---------------------
